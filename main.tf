@@ -9,7 +9,7 @@ terraform {
     organization = "jellyfish-republic"
 
     workspaces {
-      name = "aad-oicd"
+      name = "aad-oidc"
     }
   }
 }
