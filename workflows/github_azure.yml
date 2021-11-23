@@ -1,0 +1,28 @@
+name: Run Azure Login with OpenID Connect
+on:
+  push:
+    branches:
+      - "main"
+
+
+permissions:
+      id-token: write
+      
+jobs: 
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+            client-id: ${{ secrets.AZURE_CLIENTID }}
+            tenant-id: ${{ secrets.AZURE_TENANTID }}
+            allow-no-subscriptions: true
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.11
+      - run: terraform init
+      - run: terraform plan -out=plan.out
