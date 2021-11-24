@@ -14,7 +14,9 @@ terraform {
   }
 }
 
+data "azuread_client_config" "current" {}
 resource "azuread_group" "github" {
   display_name     = "github"
   security_enabled = true
+  owners           = [data.azuread_client_config.current.object_id]
 }
